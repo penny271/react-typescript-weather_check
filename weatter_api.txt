@@ -1,0 +1,2 @@
+ログインしてapi keyを取得する
+https://www.weatherapi.com/my/
