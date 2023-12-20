@@ -1,22 +1,21 @@
-// The line import { useState } from 'react'; is a JavaScript import statement used in React applications. It imports the useState hook from the React library.
-import { useState } from 'react';
-
 // "https://api.weatherapi.com/v1/current.json?key=d8bda20153f64375b49221712231912&q=London&aqi=no"
 
-const Form = () => {
-  // 次に[] があって、その中に city と setCity が書かれています。最初の city が先ほど説明したstateで、ここにユーザーが入力した都市名が保管されます。次の setCity がstateにデータを書き込んだり操作したりする仕組みです。つまりこの setCity を使うことで city 内のデータを操作できるのです。 ここではわかりやすいように city、 setCity と名前をつけていますが、他の名前でも構いません。慣例的に[] の2つ目は「set + state名」と名前をつけます。文字通り、stateにデータをセット（set）するという意味です。
-  const [city, setCity] = useState<string>(""); // 初期値ブランク
-  const getWeather = (e: any) => {
-    e.preventDefault(); // formでsubmitでreloadされないようにする
-    fetch("https://api.weatherapi.com/v1/current.json?key=d8bda20153f64375b49221712231912&q=London&aqi=no")
-      .then(res => res.json())
-      .then(data => console.log('data :>> ', data))
-  }
+// ts: 指定するものが複数の場合、型を別のところに書いて当てはめる(例: props)
+type FormPropsType = {
+  setCity: React.Dispatch<React.SetStateAction<string>>;
+  getWeather: (e: React.FormEvent<HTMLFormElement>) => void;
+}
+// App.tsx から渡された setCity と getWeather にアクセスするには props が必要なのでpropsを引数に入れる
+// ※typeScriptでは propsとして渡したものにも型を設定する必要あり
+// const Form = (props: any) => {
+const Form = (props: FormPropsType) => {
   return (
-    <form>
+    <form onSubmit={props.getWeather}>
       {/* onChangeハンドラー */}
-      <input type="text" name="city" placeholder="都市名" onChange={e => setCity(e.target.value)} />
-      <button type="submit" onClick={getWeather}>Get Weahter</button>
+      <input type="text" name="city" placeholder="都市名" onChange={e => props.setCity(e.target.value)} />
+      {/* ! onClickだた動かないことがあるため formタグに onSubmitを使う */}
+      {/* <button type="submit" onClick={props.getWeather}>Get Weahter</button> */}
+      <button type="submit">Get Weather</button>
     </form>
   );
 };
