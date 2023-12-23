@@ -1,35 +1,52 @@
+import { ResultsStateType } from "../App";
+
+// importを使った場合
 type ResultsPropsType = {
   // results: ResultsStateType;
   // 上記はApp.tsxで指定されているためその内容をコピペする必要あり
-  results: {
-    country: string;
-    cityName: string;
-    temperature: string;
-    conditionText: string;
-    icon: string;
-  }
+  results: ResultsStateType;
 }
 
-const Results = (props: ResultsPropsType) => {
+// type ResultsPropsType = {
+//   // results: ResultsStateType;
+//   // 上記はApp.tsxで指定されているためその内容をコピペする必要あり
+//   results: {
+//     country: string;
+//     cityName: string;
+//     temperature: string;
+//     conditionText: string;
+//     icon: string;
+//   }
+// }
+
+
+// props = {results: {…}}
+// const Results = (props: ResultsPropsType) => {
+// 分割代入
+const Results = ({results}: ResultsPropsType) => {
+
+  // 分割代入
+  const { country, cityName, temperature, conditionText, icon } = results;
   return (
-    <div>
+    // classがないtagは <></>と書くことができる
+    <>
       {/* ロジカルオペレーター */}
-      {props.results.country &&
-        <div className="results-country">{props.results.country}</div>
+      {country &&
+        <div className="results-country">{country}</div>
       }
-      {props.results.cityName &&
-        <div className="results-city">{props.results.cityName}</div>
+      {cityName &&
+        <div className="results-city">{cityName}</div>
       }
-      {props.results.temperature &&
-        <div className="results-temp">{props.results.temperature} <span>°C</span></div>
+      {temperature &&
+        <div className="results-temp">{temperature} <span>°C</span></div>
       }
-      {props.results.conditionText &&
+      {conditionText &&
         <div className="results-condition">
-              <img src={props.results.icon} alt="icon"/>
-              <span>{props.results.conditionText}</span>
+              <img src={icon} alt="icon"/>
+              <span>{conditionText}</span>
         </div>
       }
-    </div>
+    </>
   );
 }
 
